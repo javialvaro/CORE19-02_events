@@ -1,7 +1,23 @@
+ 
+ const config  = [ 				 
+				 { hora: "07:00",
+				 temperatura: 22
+				 },
+				 { hora: "08:30",
+				 temperatura: 18
+				 },
+				 { hora: "18:00",
+				 temperatura: 22
+				 },
+				 { hora: "23:00",
+				 temperatura: 20
+				 }				 
+				];
 
 const Habitacion = require('./habitacion');
 const Climatizador = require('./climatizador');
 const Termostato = require('./termostato');
+const Programador = require('./programador');
 
 // Creamos una habitacion:
 const dormitorio = new Habitacion();
@@ -12,6 +28,10 @@ const climatizador = new Climatizador(dormitorio);
 
 // Creamos un Termostato que mira la temperatura de la habitacion:
 const termostato = new Termostato(dormitorio);
+
+// Creamos un Programador y los eventos para su configuracion correcta:
+const programador = new Programador(config);
+programador.on('ideal', (tempideal) => termostato.indicarTemperaturaIdeal(tempideal));
 
 // Configuramos el termostato para controlar la temperatura:
 termostato.on('muchofrio', () => climatizador.calentar());
